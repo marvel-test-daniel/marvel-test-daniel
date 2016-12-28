@@ -1,0 +1,50 @@
+<div class="character">
+  <div class="row">
+    <div class="col-xs-5 imagen-col">
+        <img src="http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg" alt="" class="img-post" >
+    </div>
+    <div class="col-xs-7 info-comics">
+      <h3>{{CharacterDetails.name}}</h3>
+      <p>{{CharacterDetails.description}}</p>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-xs-12 tabs">
+        <uib-tabset active="active">
+            <uib-tab index="0" select="alertMe()">
+                <uib-tab-heading class="text-capitalize title-tab">
+                  comics
+                </uib-tab-heading>
+                <div class="row">
+                  <button type="button" class="btn-group btn-md add-fav pull-right">Agregar 3 a favoritos</button>
+                </div>
+              <div class="row">
+                <div class="col-xs-4 items" ng-repeat="comic in CharacterDetails.comics.items" >
+                  <a class="item" ng-click="actions.OpenComicsDetailsModal(CharacterDetails.id)">{{comic.name}}</a>
+                </div>
+              </div>
+            </uib-tab>
+            <uib-tab index="1" select="alertMe()">
+                <uib-tab-heading class="text-capitalize title-tab">
+                   Series
+                </uib-tab-heading>
+                <div class="row">
+                  <div class="col-xs-4 items" ng-repeat="comic in CharacterDetails.series.items" >
+                    <a class="item-series" >{{comic.name}}</a>
+                  </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="2" select="alertMe()">
+                   <uib-tab-heading class="text-capitalize title-tab">
+                       stories
+                   </uib-tab-heading>
+                   <div class="row">
+                     <div class="col-xs-4 items-series" ng-repeat="comic in CharacterDetails.stories.items" >
+                       <a class="item">{{comic.name}}</a>
+                     </div>
+                   </div>
+            </uib-tab>
+         </uib-tabset>
+      </div>
+    </div>
+</div>

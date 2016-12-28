@@ -1,0 +1,41 @@
+<div class="feed">
+  <div class="row feed-title">
+    <div class="col-xs-9">
+        <p class="text-capitalize characters-title"><img src="/assets/images/characters.png" alt="" class="img-logo"> characters</p>
+    </div>
+    <div class="col-xs-3 text-right">
+      <div class="form-group">
+        <select class="form-control sort-select" id="sel1">
+          <option>Sort By</option>
+          <option>Sort By2</option>
+          <option>Sort By 3</option>
+          <option>Sort By 4</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row character-feed">
+    <div class="col-xs-12 col-sm-6" ng-repeat="character in characters | filter:searchText">
+      <div class="thumbnail">
+        <div class="row">
+          <div class="col-xs-5">
+            <img src="http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg" alt="" class="img-character">
+          </div>
+          <div class="col-xs-7 info">
+            <h3 class="text-capitalize name-character">{{character.name}}</h3>
+            <p class="description">{{character.description}}</p>
+            <a ui-sref="character({id: character.id})" class="btn btn-default text-uppercase view-more" role="button">view more</a>
+          </div>
+        </div>
+        <div class="caption">
+          <h3 class="text-capitalize related">related comics</h3>
+          <div class="row">
+            <div class="col-xs-6 comics-random" ng-repeat="comic in character.comics.items | orderBy: random | limitTo: 4 " >
+              <a class="item" ng-click="actions.OpenComicsDetailsModal(comic.id)">{{comic.name}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

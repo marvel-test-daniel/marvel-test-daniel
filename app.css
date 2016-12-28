@@ -1,0 +1,246 @@
+header {
+  position: fixed;
+}
+header .logotype {
+  background-color: #2d2727;
+  height: 70px;
+  text-align: left;
+}
+header .logotype .img-logo {
+  width: 100px;
+  height: 45px;
+  margin-top: 10px;
+}
+header .logotype .search {
+  text-align: left;
+  margin-top: 10px;
+  padding: 0px;
+}
+header .logotype .search .input-search {
+  border: none;
+  border-radius: 0px;
+  height: 40px;
+}
+header .logotype .search .search-button {
+  border: none;
+  border-radius: 0px;
+  height: 40px;
+}
+header .logotype .search .search-button .search-icon {
+  width: 30px;
+}
+footer {
+  margin-top: 40px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+footer .foot {
+  background-color: #2d2727;
+  height: 80px;
+}
+footer .foot .info {
+  margin-top: 30px;
+  padding-left: 20px;
+  color: white;
+}
+footer .foot .img-logo {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+.landing {
+  margin: 0px;
+  padding-bottom: 80px;
+  background-color: #f4f4f4;
+}
+.landing .feed {
+  padding: 10px;
+}
+.landing .favorite {
+  padding: 0px;
+}
+.feed {
+  position: relative;
+}
+.feed .feed-title {
+  margin-bottom: 20px;
+}
+.feed .feed-title .characters-title {
+  font-size: 20px;
+  font-weight: bolder;
+}
+.feed .feed-title .sort-select {
+  border: 2px solid #dcdcdc;
+  border-radius: 0px;
+}
+.feed .character-feed {
+  padding-left: 20px;
+  margin-right: 20px;
+}
+.feed .character-feed .thumbnail {
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.feed .character-feed .thumbnail .img-character {
+  width: 80%;
+  margin-top: -20px;
+  margin-left: -15px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  float: left;
+}
+.feed .character-feed .thumbnail .info {
+  color: #796f70;
+  margin-left: -45px;
+}
+.feed .character-feed .thumbnail .info .name-character {
+  margin: -20px;
+  font-size: 24px;
+  font-weight: bolder;
+  margin-bottom: 5px;
+  color: #473d3c;
+}
+.feed .character-feed .thumbnail .info .view-more {
+  border-radius: 0px;
+  background-color: #ec1d23;
+  color: white;
+  border: none;
+}
+.feed .character-feed .caption {
+  color: #796f70;
+}
+.feed .character-feed .caption .related {
+  margin: 0px;
+  font-size: 18px;
+  font-weight: bolder;
+}
+.feed .character-feed .caption .comics-random .item {
+  float: left;
+  margin: 5px;
+  font-size: 16px;
+  color: #796f70;
+  cursor: pointer;
+}
+.favorite {
+  background-color: #ebebeb;
+  margin: 0px;
+  padding: 0px;
+}
+.favorite .favorite-title {
+  padding-top: 10px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+.favorite .items-favorite {
+  margin: 0px;
+}
+.favorite .items-favorite .comics {
+  margin: 0px;
+  padding: 0px;
+}
+.favorite .items-favorite .icon-delete {
+  position: absolute;
+  margin-left: -20px;
+  margin-top: -10px;
+  z-index: 5;
+}
+.favorite .items-favorite .img-favorite {
+  width: 193px;
+  position: relative;
+  text-align: center;
+  height: 80%;
+}
+.modal-body {
+  padding-bottom: 0px;
+}
+.modal-body .icon-delete {
+  margin: 10px;
+  margin-top: 0px;
+  cursor: pointer;
+}
+.modal-body .imagen-col .img-post {
+  width: 80%;
+  padding-right: 0px;
+}
+.modal-body .info-comics {
+  color: #796f70;
+  margin-left: -30px;
+}
+.modal-body .info-comics h3 {
+  color: #473d3c;
+  font-weight: bolder;
+}
+.modal-body .info-comics p {
+  text-align: justify;
+}
+.modal-body .buttom-footer {
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+}
+.modal-body .buttom-footer .img-buttom {
+  width: 30px;
+  margin-right: 10px;
+}
+.modal-body .buttom-footer .add-fav {
+  border-radius: 0px;
+  border: none;
+  background-color: #322827;
+  color: #ec1d23;
+}
+.modal-body .buttom-footer .buy {
+  border-radius: 0px;
+  border: none;
+  background-color: #dcdcdc;
+  color: #ec1d23;
+}
+.character {
+  position: absolute;
+  margin: 60px;
+}
+.character .imagen-col .img-post {
+  margin: 40px;
+  width: 40%;
+}
+.character .info-comics {
+  color: #796f70;
+}
+.character .info-comics h3 {
+  margin-top: 40px;
+  color: #473d3c;
+  font-weight: bolder;
+}
+.character .info-comics p {
+  text-align: justify;
+}
+.character .tabs {
+  color: #796f70;
+}
+.character .tabs .title-tab {
+  font-size: 18px;
+  font-weight: bolder;
+}
+.character .tabs .add-fav {
+  height: 40px;
+  margin: 20px;
+  border-radius: 0px;
+  border: none;
+  background-color: #ec1d23;
+  color: white;
+}
+.character .tabs .items {
+  float: left;
+  margin: 10px 0px 10px 0px;
+}
+.character .tabs .items a {
+  font-size: 16px;
+  color: #796f70;
+  cursor: pointer;
+}
+html,
+body {
+  height: 100%;
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+}
+

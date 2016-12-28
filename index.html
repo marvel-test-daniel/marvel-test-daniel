@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>app</title>
+    <link rel="stylesheet" href="/vendor.css" type="text/css">
+    <link rel="stylesheet" href="/app.css" type="text/css">
+    <base href="/">
+</head>
+
+<body ng-app="app">
+    <main>
+      <header-directive></header-directive>
+        <!--CONTENIDO DE LA PAGINA-->
+        <div ui-view="main" class="mainContainer"></div>
+        
+      <footer-directive></footer-directive>
+    </main>
+    <script src="vendor.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
