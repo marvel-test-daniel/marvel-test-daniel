@@ -19,11 +19,12 @@
       <div class="thumbnail">
         <div class="row">
           <div class="col-xs-5">
-            <img src="http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg" alt="" class="img-character">
+            <img ng-src="{{character.thumbnail.path + '.' + character.thumbnail.extension}}" alt="" class="img-character">
           </div>
           <div class="col-xs-7 info">
             <h3 class="text-capitalize name-character">{{character.name}}</h3>
-            <p class="description">{{character.description}}</p>
+            <p class="description">{{character.description | limitTo:70}}
+              <a ng-if="character.description.length > 70" ui-sref="character({id: character.id})">...</a></p>
             <a ui-sref="character({id: character.id})" class="btn btn-default text-uppercase view-more" role="button">view more</a>
           </div>
         </div>
@@ -31,11 +32,19 @@
           <h3 class="text-capitalize related">related comics</h3>
           <div class="row">
             <div class="col-xs-6 comics-random" ng-repeat="comic in character.comics.items | orderBy: random | limitTo: 4 " >
-              <a class="item" ng-click="actions.OpenComicsDetailsModal(comic.id)">{{comic.name}}</a>
+              <a class="item" ng-click="actions.OpenComicsDetailsModal(comic.id)" title="{{comic.name}}">{{comic.name | limitTo:28}}
+                <span ng-if="character.description.length > 28">...</span></a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="row pagination-row">
+    <div class="btn-group col-xs-4 col-xs-offset-5">
+      <button type="button" class="btn btn-default" ng-disabled="currentPage === 1" ng-click="setPage(currentPage - 1)">Previous</button>
+      <button type="button" class="btn btn-default" ng-disabled="currentPage === totalCharacters" ng-click="setPage(currentPage + 1)">Next</button>
+    </div>
+  </div>
+
 </div>

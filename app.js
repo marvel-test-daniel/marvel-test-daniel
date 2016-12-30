@@ -46,7 +46,7 @@
                 }
             })
             .state('character', {
-               url: '/character:id',
+               url: '/character/:id',
                views: {
                    "main": {
                        controller: 'characterController',
@@ -75,7 +75,6 @@
         });
 
         $rootScope.$on('$viewContentLoaded', function (){
-          console.log('view Loaded');
         });
     }
 
@@ -112,7 +111,8 @@
             getCharacters: getCharacters,
             getCharacterById: getCharacterById,
             getComics: getComics,
-            getComicById: getComicById
+            getComicById: getComicById,
+            getResourceFromCharacter: getResourceFromCharacter
         };
         return apiService;
 
@@ -123,7 +123,7 @@
             var offset = '&offset=' + page;
             $http.get(API + '/v1/public/characters' + APIKEY + limit + offset)
             .success(function(value, status, headers, config) {
-                deferred.resolve(value.data.results);
+                deferred.resolve(value.data);
             })
             .error(function(status) {
                 deferred.reject(status);
@@ -134,6 +134,18 @@
         function getCharacterById(characterId) {
             var deferred = $q.defer();
             $http.get(API + '/v1/public/characters/' + characterId + APIKEY)
+            .success(function(value, status, headers, config) {
+                deferred.resolve(value.data.results);
+            })
+            .error(function(status) {
+                deferred.reject(status);
+            });
+            return deferred.promise;
+        };
+
+        function getResourceFromCharacter(characterId, resource) {
+            var deferred = $q.defer();
+            $http.get(API + '/v1/public/characters/' + characterId + '/' + resource +  APIKEY)
             .success(function(value, status, headers, config) {
                 deferred.resolve(value.data.results);
             })
@@ -190,7 +202,8 @@
         var favoriteService = {
             add: add,
             list: list,
-            del: del
+            remove: remove,
+            isFavorite: isFavorite
         };
         return favoriteService;
 
@@ -200,7 +213,6 @@
 
         function add(comicId) {
             var deferred = $q.defer();
-            
             apiService.getComicById(comicId)
                 .then(function success(value, status, headers, config){
                     var storage = new Array();
@@ -211,7 +223,7 @@
                         storage.push(value[0]);
                         localStorage.setItem('favorites', JSON.stringify(storage));
                         deferred.resolve(storage);
-                    } 
+                    }
                     else {
                         deferred.reject({err: 'Ya es favorito'});
                     }
@@ -231,13 +243,26 @@
             return deferred.promise;
         };
 
-        function del(comicId) {
+        function isFavorite(comicId) {
+          var storage = new Array();
+          if (verify() != 'null' || verify() != null)
+              storage = _.map(verify(), _.clone);
+          if (_.isEmpty(_.find(storage, function(o){ return o.id === comicId.id })))
+          {
+              return false;
+          }
+          else {
+              return true
+          }
+        };
+
+        function remove(comicId) {
             var deferred = $q.defer();
             var storage = new Array();
             if (verify() != 'null' || verify() != null){
                 storage = _.map(verify(), _.clone);
                 _.remove(storage, function(comic) { return comic.id === comicId });
-                localStorage.setItem('favorites', JSON.stringify(storage)); 
+                localStorage.setItem('favorites', JSON.stringify(storage));
             }
             deferred.resolve(storage);
             return deferred.promise;
@@ -247,27 +272,65 @@
 })();
 
 
-
 (function() {
     'use strict';
     var app = angular.module('app')
-        .controller('comicsDetailsController', ['$scope', '$uibModalInstance',  'apiService', 'items',
-            function ($scope, $uibModalInstance, apiService, items) {
+        .controller('comicsDetailsController', ['$scope', '$uibModalInstance',  'apiService', 'favoriteService', 'comic', '$rootScope',
+            function ($scope, $uibModalInstance, apiService, favoriteService, comic, $rootScope) {
                 var vm = this;
+                vm.isFavorite = isFavorite;
+                vm.changeFavorite = changeFavorite;
+                init();
 
-                apiService.getComics().then(
+                function init() {
+                  vm.isFav = vm.isFavorite(comic.id);
+                  vm.isFavText = vm.isFavorite(comic.id) ? 'Added to favourites' : 'Add to favourites';
+                  apiService.getComicById(comic.id).then(
                     function success (resp) {
-                        $scope.comic = resp;
+                      console.log("resp",resp);
+                      vm.comic = resp[0];
+                      console.log("comic",vm.comic);
                     },
                     function error (err) {
-                        console.log("err",err)
-                      }
+                      console.log("err",err)
+                    }
                   );
-                  $scope.actions = {
-                  CloseModal: function () {
-                      $uibModalInstance.close();
+                }
+
+                function isFavorite (comicId) {
+                  return favoriteService.isFavorite(comicId);
+                };
+
+                function changeFavorite (comicId, toFavorite) {
+                  if(toFavorite){
+                    favoriteService.add(comicId)
+                      .then(function (storage) {
+                        vm.isFav = true;
+                        vm.isFavText = 'Added to favourites';
+                        $rootScope.$broadcast('favorite', true);
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      })
                   }
-              };
+                  else {
+                    favoriteService.remove(comicId)
+                      .then(function (storage) {
+                        vm.isFav = false;
+                        vm.isFavText = 'Add to favourites';
+                        $rootScope.$broadcast('favorite', true);
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      })
+                  }
+                }
+
+                vm.actions = {
+                  CloseModal: function () {
+                    $uibModalInstance.close();
+                  },
+                };
 
             }]
         );
@@ -305,10 +368,17 @@
         }
 
         $scope.removeComic = function (comicId) {
-            favoriteService.del(comicId).then(function success(favoriteList){
+            favoriteService.remove(comicId).then(function success(favoriteList){
                 $scope.favoriteList = favoriteList;
             });
         }
+        function loadFavorite($event, favorite){
+         favoriteService.list().then(function success(favoriteList) {
+             $scope.favoriteList = favoriteList;
+         });
+       }
+
+       $scope.$on('favorite', loadFavorite)
 
     }
 
@@ -328,6 +398,10 @@
 
     feedController.$inject = ['$state', '$scope', 'apiService', '$uibModal'];
     function feedController($state, $scope, apiService, $uibModal) {
+        
+        $scope.totalCharacters = 1;
+        $scope.currentPage = 1;
+       
         init()
 
         function init() {
@@ -336,9 +410,10 @@
 
 
         function getCharacters(n){
+            console.log("pagina:",n);
             apiService.getCharacters(n).then(
                 function success (resp) {
-                    _.each(resp, function (character) {
+                    _.each(resp.results, function (character) {
                     if(!_.isEmpty(character.comics.items)) {
                         _.each(character.comics.items, function(comic) {
                         var str = comic.resourceURI.split('/');
@@ -348,35 +423,41 @@
                     }
                     return character;
                     });
-                    $scope.characters = resp;
+                    $scope.characters = resp.results;
+                    $scope.totalCharacters = resp.total;
                 },
                 function error (err) {
                     console.log("err",err)
                     }
-                );  
-            
+                );
+
         }
 
         $scope.actions= {
-            OpenComicsDetailsModal: function (nameComics) {
-                console.log("estoy en comicsDetailsController", nameComics)
+            OpenComicsDetailsModal: function (comicId) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
                     templateUrl: 'app/components/comicsDetails/comicsDetails.html',
                     controller: 'comicsDetailsController',
+                    controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        items: function(){
-                            var comicsInfo = {
-                                nameComics: nameComics
+                        comic: function(){
+                            var comic = {
+                                id: comicId
                             };
-                            return comicsInfo;
+                            return comic;
                         }
                     }
                 })
             },
+        };
+
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+            getCharacters(pageNo);
         };
     }
 
@@ -450,35 +531,64 @@
     /* @ngInject */
     function characterController($scope, $state, apiService, $uibModal) {
         var vm = this;
+        init();
 
-        vm.characterId = $state.params.id;
-        console.log(vm.characterId);
+        function init () {
+          vm.characterId = $state.params.id;
+          getCharacterData(vm.characterId);
+          vm.comics = getCharacterResource(vm.characterId, 'comics');
+          vm.events = getCharacterResource(vm.characterId, 'events');
+          vm.series = getCharacterResource(vm.characterId, 'series');
+          vm.stories = getCharacterResource(vm.characterId, 'stories');
+        }
 
-        apiService.getCharacterDetails().then(
+        function getCharacterData (characterId) {
+          apiService.getCharacterById(characterId).then(
             function success (resp) {
-                $scope.CharacterDetails = resp;
-                console.log("aqui me muestra los detalles", $scope.CharacterDetails);
+                if(!_.isEmpty(resp[0].comics.items)) {
+                    _.each(resp[0].comics.items, function(comic) {
+                    var str = comic.resourceURI.split('/');
+                    comic.id = str[6];
+                    return comic;
+                    })
+                }
+                vm.characterDetails = resp[0];
+                console.log("hola mundooo")
             },
             function error (err) {
                 console.log("err",err)
               }
           );
+        }
 
-          $scope.actions= {
-            OpenComicsDetailsModal: function (comicsId) {
+        function getCharacterResource(characterId, resource) {
+          return apiService.getResourceFromCharacter(characterId, resource).then(
+            function success (resp) {
+                return resp;
+            },
+            function error (err) {
+                console.log("err",err)
+                return;
+              }
+          );
+        }
+
+          vm.actions= {
+            OpenComicsDetailsModal: function (comicId) {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
                     templateUrl: 'app/components/comicsDetails/comicsDetails.html',
                     controller: 'comicsDetailsController',
+                    controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        items: function(){
-                            var comicsInfo = {
-                                comicsId: comicsId
+                        comic: function(){
+                            var comic = {
+                                id: comicId
                             };
-                            return comicsInfo;
+                            return comic;
                         }
                     }
                 })

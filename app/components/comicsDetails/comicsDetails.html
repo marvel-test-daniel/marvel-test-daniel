@@ -1,20 +1,22 @@
 <div class="modal-body" id="modal-body">
   <div class="row">
-      <img src="/assets/images/btn-close.png" alt="" class="icon-delete pull-right" ng-click="actions.CloseModal()" >
+      <img src="/assets/images/btn-close.png" alt="" class="icon-delete pull-right" ng-click="vm.actions.CloseModal()" >
   </div>
   <div class="row">
     <div class="col-xs-5 imagen-col">
-        <img src="http://i.annihil.us/u/prod/marvel/i/mg/a/60/4e94a888dd6b6.jpg" alt="" class="img-post" >
+        <img ng-src="{{vm.comic.images[0].path + '.' + vm.comic.images[0].extension}}" alt="" class="img-post" >
     </div>
     <div class="col-xs-7 info-comics">
-      <h3>{{comic.title}}</h3>
-      <p>{{comic.description}}</p>
+      <h3>{{vm.comic.title}}</h3>
+      <p>{{vm.comic.description}}</p>
     </div>
   </div>
   <div class="row">
     <div class="btn-group buttom-footer col-xs-6" role="group">
-        <button type="button" class="btn-group btn-group-justified btn-lg text-capitalize add-fav">
-          <img src="/assets/images/btn-favourites-primary.png" alt="" class="img-buttom">added to favourites</button>
+        <button type="button" class="btn-group btn-group-justified btn-lg text-capitalize add-fav" ng-click="vm.changeFavorite(vm.comic.id, !vm.isFav)" >
+          <img src="/assets/images/btn-favourites-primary.png" alt="" class="img-buttom">
+          {{ vm.isFavText }}
+        </button>
     </div>
     <div class="btn-group buttom-footer col-xs-6" role="group">
         <button type="button" class="btn-group btn-group-justified btn-lg text-capitalize buy">

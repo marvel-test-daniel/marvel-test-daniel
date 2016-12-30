@@ -1,13 +1,13 @@
 <header>
     <div class="logotype">
         <div class="col-xs-12 col-sm-2">
-            <img src="/assets/images/marvel-logo.png" alt="" class="img-logo">
+            <a ui-sref="dashboard"><img src="/assets/images/marvel-logo.png" alt="" class="img-logo"></a>
         </div>
         <div class="col-xs-6">
           <div class="input-group search">
-            <input type="text" class="form-control input-search"  ng-model="searchText.name" placeholder="Search character...">
+            <input ng-disabled="currentState==='character'" type="text" class="form-control input-search"  ng-model="searchText.name" placeholder="Search character...">
             <span class="input-group-btn">
-              <button class="btn btn-default search-button" type="button"><img src="/assets/images/search.png" alt="" class="search-icon"></button>
+              <button ng-disabled="currentState==='character'" class="btn btn-default search-button"  type="button"><img src="/assets/images/search.png" alt="" class="search-icon"></button>
             </span>
           </div><!-- /input-group -->
         </div>

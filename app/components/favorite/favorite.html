@@ -3,10 +3,10 @@
       <img src="/assets/images/btn-favourites-primary.png" alt="" class="img-logo"> My Favourite
     </p>
 
-    <div class="row items-favorite">
+    <div class="row items-favorite" ng-repeat="favorite in favoriteList">
       <div class="col-xs-12 comics">
-          <img src="http://i.annihil.us/u/prod/marvel/i/mg/b/80/4fb2a4aa018c6.jpg" alt="" class="img-favorite">
-          <img src="/assets/images/btn-delete.png" alt="" class="icon-delete">
+          <img ng-src="{{favorite.images[0].path + '.' + favorite.images[0].extension}}" alt="" class="img-favorite">
+          <a ng-click="removeComic(favorite.id)"><img src="/assets/images/btn-delete.png" alt="" class="icon-delete"></a>
       </div>
     </div>
 

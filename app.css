@@ -1,5 +1,6 @@
 header {
   position: fixed;
+  z-index: 1;
 }
 header .logotype {
   background-color: #2d2727;
@@ -10,6 +11,7 @@ header .logotype .img-logo {
   width: 100px;
   height: 45px;
   margin-top: 10px;
+  cursor: pointer;
 }
 header .logotype .search {
   text-align: left;
@@ -50,13 +52,17 @@ footer .foot .img-logo {
 }
 .landing {
   margin: 0px;
+  padding-top: 70px;
   padding-bottom: 80px;
   background-color: #f4f4f4;
 }
-.landing .feed {
+.landing .row {
+  margin: 0px;
+}
+.landing .row .feed {
   padding: 10px;
 }
-.landing .favorite {
+.landing .row .favorite {
   padding: 0px;
 }
 .feed {
@@ -81,9 +87,11 @@ footer .foot .img-logo {
   border: none;
   margin-top: 20px;
   margin-bottom: 30px;
+  height: 220px;
 }
 .feed .character-feed .thumbnail .img-character {
-  width: 80%;
+  width: 120px;
+  height: 120px;
   margin-top: -20px;
   margin-left: -15px;
   border-radius: 50%;
@@ -118,9 +126,13 @@ footer .foot .img-logo {
 .feed .character-feed .caption .comics-random .item {
   float: left;
   margin: 5px;
-  font-size: 16px;
+  font-size: 12px;
   color: #796f70;
   cursor: pointer;
+}
+.feed .pagination-row {
+  margin: 5px auto;
+  height: 60px;
 }
 .favorite {
   background-color: #ebebeb;
@@ -139,17 +151,21 @@ footer .foot .img-logo {
   margin: 0px;
   padding: 0px;
 }
-.favorite .items-favorite .icon-delete {
+.favorite .items-favorite .comics .icon-delete {
   position: absolute;
   margin-left: -20px;
   margin-top: -10px;
-  z-index: 5;
+  z-index: 0;
+  cursor: pointer;
 }
-.favorite .items-favorite .img-favorite {
+.favorite .items-favorite .comics .img-favorite {
   width: 193px;
   position: relative;
   text-align: center;
   height: 80%;
+  margin-left: 50px;
+  padding-left: 20px;
+  margin-bottom: 30px;
 }
 .modal-body {
   padding-bottom: 0px;
@@ -198,9 +214,9 @@ footer .foot .img-logo {
   position: absolute;
   margin: 60px;
 }
-.character .imagen-col .img-post {
-  margin: 40px;
-  width: 40%;
+.character .imagen-col {
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 .character .info-comics {
   color: #796f70;
@@ -213,14 +229,33 @@ footer .foot .img-logo {
 .character .info-comics p {
   text-align: justify;
 }
-.character .tabs {
+.character .info-comics .button-more {
+  height: 40px;
+  margin: 20px;
+  border-radius: 0px;
+  border: none;
+  color: white;
+}
+.character .info-comics .button-more .more-button {
+  background-color: #6A91A4;
+}
+.character .info-comics .button-more .wiki-button {
+  background-color: #FFDE70;
+}
+.character .info-comics .button-more .comiclick-button {
+  background-color: #A9D9BD;
+}
+.character .item-comic {
+  margin-bottom: 30px;
+}
+.character .item-comic .tabs {
   color: #796f70;
 }
-.character .tabs .title-tab {
+.character .item-comic .tabs .title-tab {
   font-size: 18px;
   font-weight: bolder;
 }
-.character .tabs .add-fav {
+.character .item-comic .tabs .add-fav {
   height: 40px;
   margin: 20px;
   border-radius: 0px;
@@ -228,11 +263,11 @@ footer .foot .img-logo {
   background-color: #ec1d23;
   color: white;
 }
-.character .tabs .items {
+.character .item-comic .tabs .items {
   float: left;
   margin: 10px 0px 10px 0px;
 }
-.character .tabs .items a {
+.character .item-comic .tabs .items a {
   font-size: 16px;
   color: #796f70;
   cursor: pointer;
